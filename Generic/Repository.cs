@@ -1,9 +1,4 @@
-using BookShelf.API.Data;
-using BookShelf.API.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
 
-namespace BookShelf.API.Repository
-{
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _dbcontext;
@@ -22,4 +17,3 @@ namespace BookShelf.API.Repository
         public void Delete(T entity) => _dbSet.Remove(entity);
         public void Save() => _dbSet.SaveChanges();
     }
-}
