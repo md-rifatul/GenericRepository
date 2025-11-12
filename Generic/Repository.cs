@@ -1,18 +1,25 @@
-public class Repository<T> : IRepository where T: class
+using BookShelf.API.Data;
+using BookShelf.API.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
+
+namespace BookShelf.API.Repository
 {
-    private readonly ApplicationDbContext _dbcontext;
-    private readonly DbSet<T> _dbSet;
-
-    public Repository(ApplicationDbContext dbContext)
+    public class Repository<T> : IRepository<T> where T : class
     {
-        _dbcontext = dbContext;
-        _dbSet = _dbcontext.Set<T>();
-    }
+        private readonly ApplicationDbContext _dbcontext;
+        private readonly DbSet<T> _dbSet;
 
-    public IEnumerable<T> GetAll() => _dbcontext.ToList();
-    public T? GetById(int id) => _dbcontext.Find(id);
-    public void Add(T entity) => _dbcontext.Add(entity);
-    public void Update(T entity) => _dbcontext.Update(entity);
-    public void Delete(T entity) => _dbcontext.Remove(entity);
-    public void Save() => _dbcontext.SaveChanges();
+        public Repository(ApplicationDbContext dbContext)
+        {
+            _dbcontext = dbContext;
+            _dbSet = _dbcontext.Set<T>();
+        }
+
+        public IEnumerable<T> GetAll() => _dbSet.ToList();
+        public T? GetById(int id) => _dbSet.Find(id);
+        public void Add(T entity) => _dbSet.Add(entity);
+        public void Update(T entity) => _dbSet.Update(entity);
+        public void Delete(T entity) => _dbSet.Remove(entity);
+        public void Save() => _dbSet.SaveChanges();
+    }
 }
